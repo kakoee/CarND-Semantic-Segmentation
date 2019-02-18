@@ -213,7 +213,7 @@ def run():
         # TODO: Build NN using load_vgg, layers, and optimize function
         epochs = 50
         batch_size = 5
-        keep_prob = 0.5
+        keep_prob = tf.placeholder(tf.float32, name='keep_prob')  
 
         # TF placeholders
         correct_label = tf.placeholder(tf.int32, [None, None, None, num_classes], name='correct_label')
