@@ -203,8 +203,8 @@ def run():
     # You'll need a GPU with at least 10 teraFLOPS to train on.
     #  https://www.cityscapes-dataset.com/
 
-    my_epochs = 1
-    my_batch_size = 10
+    my_epochs = 25
+    my_batch_size = 8
 
     with tf.Session() as sess:
         # Path to vgg model
