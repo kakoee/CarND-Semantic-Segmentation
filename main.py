@@ -129,7 +129,7 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     logits = tf.reshape(nn_last_layer, (-1, num_classes))
 
     # Name logits Tensor, so that is can be loaded from disk after training
-    logits = tf.identity(logits, name=’logits’)
+    logits = tf.identity(logits, name='logits')
 
     # Loss and Optimizer
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label_reshaped))
@@ -142,7 +142,7 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     
     return logits, train_op, loss
     #return None, None, None
-#tests.test_optimize(optimize)
+tests.test_optimize(optimize)
 
 
 def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, input_image,
@@ -161,7 +161,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     :param learning_rate: TF Placeholder for learning rate
     """
     # TODO: Implement function
-	sess.run(tf.global_variables_initializer())
+    sess.run(tf.global_variables_initializer())
     
     # Training cycle
     for epoch in range(epochs):
@@ -184,7 +184,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
         print("********************Total loss***********************")
         print(training_loss)
     pass
-#tests.test_train_nn(train_nn)
+tests.test_train_nn(train_nn)
 
 
 def run():
@@ -211,7 +211,12 @@ def run():
         #  https://datascience.stackexchange.com/questions/5224/how-to-prepare-augment-images-for-neural-network
 
         # TODO: Build NN using load_vgg, layers, and optimize function
-
+        image_input, vgg_keep_prob, vgg_layer3_out, vgg_layer4_out, vgg_layer7_out= load_vgg(sess,vgg_path)
+        
+        fcn = layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes)
+    
+        logits, train_op, loss = optimize(fcn,correct_label='',learning_rate=0.1,num_classes)
+        
         # TODO: Train NN using the train_nn function
 
         # TODO: Save inference data using helper.save_inference_samples
