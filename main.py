@@ -195,7 +195,7 @@ def run():
     tests.test_for_kitti_dataset(data_dir)
 
     # Download pretrained vgg model
-    helper.maybe_download_pretrained_vgg(data_dir)
+    #helper.maybe_download_pretrained_vgg(data_dir)
 
     # OPTIONAL: Train and Inference on the cityscapes dataset instead of the Kitti dataset.
     # You'll need a GPU with at least 10 teraFLOPS to train on.
@@ -224,11 +224,11 @@ def run():
     
         logits, train_op, loss = optimize(fcn,correct_label,learning_rate,num_classes)
         
-        train_nn(sess, epochs, batch_size, get_batches_fn, train_op, loss, input_image,
+        train_nn(sess, epochs, batch_size, get_batches_fn, train_op, loss, image_input,
              correct_label, keep_prob, learning_rate)
 
         # TODO: Save inference data using helper.save_inference_samples
-        helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, input_image)
+        helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, image_input)
         
         # TODO: Train NN using the train_nn function
 
