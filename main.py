@@ -213,7 +213,6 @@ def run():
         # TODO: Build NN using load_vgg, layers, and optimize function
         epochs = 50
         batch_size = 5
-        keep_prob = tf.placeholder(tf.float32, name='keep_prob')  
 
         # TF placeholders
         correct_label = tf.placeholder(tf.int32, [None, None, None, num_classes], name='correct_label')
@@ -226,10 +225,10 @@ def run():
         logits, train_op, loss = optimize(fcn,correct_label,learning_rate,num_classes)
         
         train_nn(sess, epochs, batch_size, get_batches_fn, train_op, loss, image_input,
-             correct_label, keep_prob, learning_rate)
+             correct_label, vgg_keep_prob, learning_rate)
 
         # TODO: Save inference data using helper.save_inference_samples
-        helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, image_input)
+        helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, vgg_keep_prob, image_input)
         
         # TODO: Train NN using the train_nn function
 
