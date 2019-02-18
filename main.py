@@ -162,6 +162,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     """
     # TODO: Implement function
     sess.run(tf.global_variables_initializer())
+    my_kepp_prob=0.5
+    my_learning_rate=0.0001
     
     # Training cycle
     for epoch in range(epochs):
@@ -173,8 +175,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={
                 input_image: image,
                 correct_label: label,
-                keep_prob: 0.5,
-                learning_rate: 0.0001
+                keep_prob: my_kepp_prob,
+                learning_rate: my_learning_rate
             })
             training_loss += loss
             print(loss)
@@ -201,6 +203,9 @@ def run():
     # You'll need a GPU with at least 10 teraFLOPS to train on.
     #  https://www.cityscapes-dataset.com/
 
+    my_epochs = 20
+    my_batch_size = 10
+
     with tf.Session() as sess:
         # Path to vgg model
         vgg_path = os.path.join(data_dir, 'vgg')
@@ -211,8 +216,7 @@ def run():
         #  https://datascience.stackexchange.com/questions/5224/how-to-prepare-augment-images-for-neural-network
 
         # TODO: Build NN using load_vgg, layers, and optimize function
-        epochs = 50
-        batch_size = 5
+ 
 
         # TF placeholders
         correct_label = tf.placeholder(tf.int32, [None, None, None, num_classes], name='correct_label')
@@ -224,7 +228,7 @@ def run():
     
         logits, train_op, loss = optimize(fcn,correct_label,learning_rate,num_classes)
         
-        train_nn(sess, epochs, batch_size, get_batches_fn, train_op, loss, image_input,
+        train_nn(sess, my_epochs, my_batch_size, get_batches_fn, train_op, loss, image_input,
              correct_label, vgg_keep_prob, learning_rate)
 
         # TODO: Save inference data using helper.save_inference_samples
