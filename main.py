@@ -61,7 +61,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     # TODO: Implement function
 	# 1X1 connvolution of the layer 7
     conv_1x1_7th_layer = tf.layers.conv2d(vgg_layer7_out,num_classes, 1,padding = 'same',
-                                     kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
+                                     kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3), kernel_initializer=tf.truncated_normal_initializer(stddev=0.01),
                                      name='conv_1x1_7th_layer')
     # Upsampling x 4
     upsampling1 = tf.layers.conv2d_transpose(conv_1x1_7th_layer,
@@ -70,6 +70,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                                 strides= (2, 2),
                                                 padding= 'same',
                                                 kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
+                                                 kernel_initializer=tf.truncated_normal_initializer(stddev=0.01),
                                                 name='upsampling1')
     # 1X1 convolution of the layer 4
     conv_1x1_4th_layer = tf.layers.conv2d(vgg_layer4_out,
@@ -77,6 +78,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                      1,
                                      padding = 'same',
                                      kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
+                                     kernel_initializer=tf.truncated_normal_initializer(stddev=0.01),
                                      name='conv_1x1_4th_layer')
     skip1 = tf.add(conv_1x1_4th_layer, upsampling1, name="skip1")
 
@@ -87,6 +89,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                     strides= (2, 2),
                                     padding= 'same',
                                     kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
+                                    kernel_initializer=tf.truncated_normal_initializer(stddev=0.01),
                                     name='upsampling2')
 
     # 1X1 convolution of the layer 3
@@ -95,6 +98,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                      1,
                                      padding = 'same',
                                      kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
+                                     kernel_initializer=tf.truncated_normal_initializer(stddev=0.01),
                                      name='conv_1x1_3th_layer')
     skip2 = tf.add(conv_1x1_3th_layer, upsampling2, name="skip2")
 
@@ -103,6 +107,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                                   strides= (8, 8),
                                                   padding= 'same',
                                                   kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
+                                                  kernel_initializer=tf.truncated_normal_initializer(stddev=0.01),
                                                   name='upsampling3')
 
 
@@ -203,7 +208,7 @@ def run():
     # You'll need a GPU with at least 10 teraFLOPS to train on.
     #  https://www.cityscapes-dataset.com/
 
-    my_epochs = 25
+    my_epochs = 40
     my_batch_size = 8
 
     with tf.Session() as sess:
